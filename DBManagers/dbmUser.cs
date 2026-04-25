@@ -15,32 +15,34 @@ namespace GameActivity.DBManagers
 
         public static objUser dbLoadUser(string username)
         {
-            objUser User = new objUser();
+            int userID = 0;
+            string password = string.Empty;
 
-            using (SqlConnection cn = new SqlConnection(LOCAL_CONNECTION))
+            using (SqlConnection connection = new SqlConnection(LOCAL_CONNECTION))
             {
-                string query = "SELECT USER_ID, Password, Permission, FirstName, LastName FROM userDatabase WHERE Username = @Username";
-                SqlCommand cmd = new SqlCommand(query, cn);
+                string query = "SELECT UserID, Password FROM Users WHERE Username = @Username";
+                SqlCommand cmd = new SqlCommand(query, connection);
                 cmd.Parameters.AddWithValue("@Username", username);
 
                 try
                 {
-                    cn.Open();
+                    connection.Open();
                     using (SqlDataReader dr = cmd.ExecuteReader())
                     {
                         if (dr.Read())
                         {
                             // Fill properties from the database record
-                            User.userID = Convert.ToInt32(dr["USER_ID"]);
-                            User.password = dr["Password"].ToString().Trim();
+                            userID = Convert.ToInt32(dr["UserID"]);
+                            password = dr["Password"].ToString().Trim();
                         }
                     }
                 }
-                catch (Exception ex) { User.currentUser = false; }
-                finally { cn.Close(); }
-
+                catch (Exception ex) {}
+                finally { connection.Close(); }
             }
-            return User;
+
+            objUser user = new objUser(userID, username, password);
+            return user;
         }
     }
 }

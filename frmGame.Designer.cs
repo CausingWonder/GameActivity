@@ -28,12 +28,30 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Text = "frmGame";
+            pnl_mainBase = new Panel();
+            SuspendLayout();
+            // 
+            // pnl_mainBase
+            // 
+            pnl_mainBase.Dock = DockStyle.Fill;
+            pnl_mainBase.Location = new Point(0, 0);
+            pnl_mainBase.Name = "pnl_mainBase";
+            pnl_mainBase.Size = new Size(800, 450);
+            pnl_mainBase.TabIndex = 0;
+            // 
+            // frmGame
+            // 
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(800, 450);
+            Controls.Add(pnl_mainBase);
+            Name = "frmGame";
+            Text = "Platformer";
+            ResumeLayout(false);
         }
 
         #endregion
+
+        private Panel pnl_mainBase;
     }
 }

@@ -28,12 +28,79 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Text = "frmScore";
+            lbl_gameCondition = new Label();
+            lbl_scores = new Label();
+            btn_playAgain = new Button();
+            btn_exit = new Button();
+            SuspendLayout();
+            // 
+            // lbl_gameCondition
+            // 
+            lbl_gameCondition.Anchor = AnchorStyles.Top | AnchorStyles.Bottom;
+            lbl_gameCondition.AutoSize = true;
+            lbl_gameCondition.Location = new Point(154, 28);
+            lbl_gameCondition.Name = "lbl_gameCondition";
+            lbl_gameCondition.Size = new Size(94, 15);
+            lbl_gameCondition.TabIndex = 0;
+            lbl_gameCondition.Text = "Game Condition";
+            lbl_gameCondition.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // lbl_scores
+            // 
+            lbl_scores.Anchor = AnchorStyles.Top | AnchorStyles.Bottom;
+            lbl_scores.AutoSize = true;
+            lbl_scores.Location = new Point(166, 55);
+            lbl_scores.Name = "lbl_scores";
+            lbl_scores.Size = new Size(70, 15);
+            lbl_scores.TabIndex = 1;
+            lbl_scores.Text = "High Scores";
+            lbl_scores.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // btn_playAgain
+            // 
+            btn_playAgain.Location = new Point(34, 228);
+            btn_playAgain.Name = "btn_playAgain";
+            btn_playAgain.Size = new Size(75, 23);
+            btn_playAgain.TabIndex = 2;
+            btn_playAgain.Text = "Play Again";
+            btn_playAgain.UseVisualStyleBackColor = true;
+            btn_playAgain.Click += btn_playAgain_Click;
+            // 
+            // btn_exit
+            // 
+            btn_exit.Cursor = Cursors.Hand;
+            btn_exit.Location = new Point(280, 228);
+            btn_exit.Name = "btn_exit";
+            btn_exit.Size = new Size(75, 23);
+            btn_exit.TabIndex = 3;
+            btn_exit.Text = "Exit";
+            btn_exit.UseVisualStyleBackColor = true;
+            btn_exit.Click += btn_exit_Click;
+            // 
+            // frmScore
+            // 
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            BackgroundImage = Properties.Resources.Scoreboard;
+            BackgroundImageLayout = ImageLayout.Zoom;
+            ClientSize = new Size(400, 300);
+            Controls.Add(btn_exit);
+            Controls.Add(btn_playAgain);
+            Controls.Add(lbl_scores);
+            Controls.Add(lbl_gameCondition);
+            DoubleBuffered = true;
+            FormBorderStyle = FormBorderStyle.None;
+            Name = "frmScore";
+            Text = "frmScore";
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
+
+        private Label lbl_gameCondition;
+        private Label lbl_scores;
+        private Button btn_playAgain;
+        private Button btn_exit;
     }
 }

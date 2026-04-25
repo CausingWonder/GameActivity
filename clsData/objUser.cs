@@ -8,36 +8,40 @@ namespace GameActivity.Data_Classes
     {
         // Properties
         private
+            int userID_ {  get; set; }
             string username_ { get; set; }
             string password_ { get; set; }
 
         // Construtors
         public objUser()
         {
+            this.userID_ = 0;
             this.username_ = string.Empty;
             this.password_ = string.Empty;
         }
 
-        public objUser(string username)
+        public objUser(string username) : this() 
+        { username_ = username; }
+
+        public objUser(int userID, string username, string password)
         {
-            this.username_ = username;
-            this.password_ = string.Empty;
+            userID_ = userID;
+            username_ = username;
+            password_ = password;
         }
 
-        private objUser(string username, string password)
-        {
-            this.username_ = username;
-            this.password_ = password;
-        }
+        // Getters
+        public int getUserID() 
+        { return this.userID_; }
+        public string getUsername() 
+        { return this.username_; }
+        public bool correctPassword(string attemptedPassword) 
+        { return string.Equals(password_, attemptedPassword); }
 
-        // Setters
-        public bool validateUser(string username, string password)
+        // Setters/Helpers
+        public void protectPassword()
         {
-            this.username_ = username;
-            this
+            this.password_ = "protected";
         }
-
-        // Private Helpers
-        private bool validateUser()
     }
 }

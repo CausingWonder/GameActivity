@@ -1,0 +1,55 @@
+# 7
+- Create a new C# WinForms project
+- Add three forms (you can choose your own names)
+	- LoginForm (basic layout is enough)
+	- GameForm (main play area)
+	- HighScoresForm (placeholder for now)
+- Create persistent data storage for 
+	- User Credentials (user name, user password) table
+	- Game scores history table
+
+Minimum behavior
+- Button on LoginForm opens GameForm with valid user login.
+- Button on GameForm returns to LoginForm.
+- Button on GameForm (or dialog box) open HighScoresForm
+
+
+#8
+What to do
+- Encapsulate player movement and mechanics
+- Create a Player class that owns player movement, jumping, gravity, vertical speed, and screen-boundary handling.
+- The UI form should forward keyboard input and call Player methods rather than changing movement variables directly.
+- Extract reusable enemy and moving platform classes
+- Refactor duplicate movement logic into reusable classes such as Enemy and MovingPlatform. Each object should manage its own speed, direction, and update behavior.
+
+Deliverables for this slice
+- Player class with attributes/properties and methods such as MoveLeft, MoveRight, StartJump, AplyMechanics
+- Old player logic moved out of frmMain as much as possible
+- Working slice showing left/right movement, jumping, gravity, and falling
+- At least one reusable Enemy class used for both enemies
+- At least one reusable MovingPlatform class used for both moving platforms
+- Working slice showing enemy motion and platform motion with correct reversals at limits
+
+
+#9
+What to do
+- Move collisions and game rules into a GameEngine/GameManager class.
+- Such a class will coordinate collisions, scoring, grounded/platform logic, victory, and death conditions.
+- The UI form should become a thinner UI shell that mainly delegates to the engine.
+
+Deliverables for this slice
+- GameEngine or GameManager class with update/collision methods
+- Collision logic for enemies, coins, platforms, and door moved out of frmMain
+- Working slice showing score increases, platform landing, death, and victory logic
+
+
+#10
+What to do
+- Separate persistence and application flow
+- Move login validation, score saving, and score retrieval into repository/service classes such as AuthenticationService, UserRepository, and ScoreRepository.
+- UI Forms should no longer contain raw SQL logic directly.
+
+Deliverables for this slice
+- Repository/service classes for login and scores
+- Forms updated to call service/repository methods instead of embedding SQL queries
+- Final working implementation: log in, play, save score, and view scores
