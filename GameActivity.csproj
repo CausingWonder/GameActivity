@@ -9,14 +9,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="clsLogic\clsPlayer.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="clsLogic\clsPlayer.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.Data.SqlClient" Version="7.0.0" />
   </ItemGroup>
 

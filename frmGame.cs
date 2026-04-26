@@ -16,13 +16,39 @@ namespace GameActivity
 {
     public partial class frmGame : Form
     {
+        private frmPlatformer? activePlatformer;
+
         public frmGame()
         {
             InitializeComponent();
-            ShowLogin();
+            this.KeyPreview = true;
+            this.KeyUp += frmGame_KeyUp;
+            showLogin();
         }
 
-        private void ShowLogin()
+        // Intercepts arrow keys and spacebar becouse of the use of panels stopping Key
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            const int WM_KEYDOWN = 0x100;
+            if (msg.Msg == WM_KEYDOWN && activePlatformer != null)
+            {
+                Keys key = keyData & ~Keys.Modifiers;
+                if (key == Keys.Left || key == Keys.Right || key == Keys.Up || key == Keys.Space)
+                {
+                    activePlatformer.gameKeyDown(key);
+                    return true;
+                }
+            }
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
+
+        private void frmGame_KeyUp(object? sender, KeyEventArgs e)
+        {
+            if (activePlatformer != null)
+                activePlatformer.gameKeyUp(e.KeyCode);
+        }
+
+        private void showLogin()
         {
             frmLogin loginForm = new frmLogin(); 
             loginForm.TopLevel = false; //Removes window header in panel
@@ -42,10 +68,11 @@ namespace GameActivity
             pnl_mainBase.Controls.Clear();
 
             frmPlatformer platform = new frmPlatformer(user);
-            platform.TopLevel = false; //Removes window header in panel
-            platform.FormBorderStyle = FormBorderStyle.None; //Removes border of window in panel
-            platform.Dock = DockStyle.Fill; //Sets location & size so its full screen
-            platform.SignOut += (sender, e) => OnSignOut(); //Connection to login from game play
+            activePlatformer = platform;
+            platform.TopLevel = false;
+            platform.FormBorderStyle = FormBorderStyle.None;
+            platform.Dock = DockStyle.Fill;
+            platform.SignOut += (sender, e) => OnSignOut();
 
             pnl_mainBase.Controls.Add(platform);
             platform.Show();
@@ -53,8 +80,9 @@ namespace GameActivity
 
         private void OnSignOut()
         {
+            activePlatformer = null;
             pnl_mainBase.Controls.Clear();
-            ShowLogin();
+            showLogin();
         }
     }
 }
