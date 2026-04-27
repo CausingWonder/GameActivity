@@ -1,4 +1,5 @@
-﻿using GameActivity.Data_Classes;
+﻿// Internal Librarys
+using Microsoft.VisualBasic.Logging;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -6,6 +7,8 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+// Custom Librays
+using GameActivity.clsData;
 
 namespace GameActivity
 {

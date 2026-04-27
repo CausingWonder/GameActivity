@@ -1,5 +1,4 @@
 ﻿// Internal Librarys
-using GameActivity.Data_Classes;
 using Microsoft.VisualBasic.Logging;
 using System;
 using System.Collections.Generic;
@@ -8,9 +7,8 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-
 // Custom Librays
-using GameActivity.Data_Classes;
+using GameActivity.clsData;
 
 namespace GameActivity
 {
@@ -51,8 +49,8 @@ namespace GameActivity
         private void showLogin()
         {
             frmLogin loginForm = new frmLogin(); 
-            loginForm.TopLevel = false; //Removes window header in panel
-            loginForm.FormBorderStyle = FormBorderStyle.None; //Removes border of window in panel
+            loginForm.TopLevel = false; 
+            loginForm.FormBorderStyle = FormBorderStyle.None; 
             loginForm.Location = new Point( //Sets location in middle of screen
                 (pnl_mainBase.Width - loginForm.Width) / 2,
                 (pnl_mainBase.Height - loginForm.Height) / 2

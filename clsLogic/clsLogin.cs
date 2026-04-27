@@ -1,6 +1,4 @@
 ﻿// Internal Librarys
-// Custom Librays
-using GameActivity.Data_Classes;
 using GameActivity.DBManagers;
 using Microsoft.VisualBasic.ApplicationServices;
 using System;
@@ -8,6 +6,8 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Text;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
+// Custom Librays
+using GameActivity.clsData;
 
 namespace GameActivity.Classes
 {

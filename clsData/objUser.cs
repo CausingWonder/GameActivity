@@ -1,8 +1,9 @@
-﻿using System;
+﻿// Internal Librarys
+using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace GameActivity.Data_Classes
+namespace GameActivity.clsData
 {
     public class objUser
     {

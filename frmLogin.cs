@@ -7,10 +7,8 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
-
 // Custom Librays
-using GameActivity.Data_Classes;
-using GameActivity.DBManagers;
+using GameActivity.clsData;
 using GameActivity.Classes;
 
 namespace GameActivity

@@ -1,10 +1,11 @@
-﻿using System;
+﻿// Internal Librarys
+using System;
 using System.Collections.Generic;
 using System.Text;
 // SQL Database Libarys
 using Microsoft.Data.SqlClient;
-// Internal Librarys
-using GameActivity.Data_Classes;
+// Custom Librays
+using GameActivity.clsData;
 
 namespace GameActivity.DBManagers
 {
@@ -52,15 +53,15 @@ namespace GameActivity.DBManagers
                 string query = "INSERT INTO Scores (UserID, Username, Score, Time, Date) VALUES (@userID, @username, @score, @time, @date)";
                 SqlCommand cmd = new SqlCommand(query, connection);
 
+                cmd.Parameters.AddWithValue("@userID", userID);
+                cmd.Parameters.AddWithValue("@username", username);
+                cmd.Parameters.AddWithValue("@score", score);
+                cmd.Parameters.AddWithValue("@time", timeSeconds);
+                cmd.Parameters.AddWithValue("@date", DateTime.Now);
+
                 try
                 {
                     connection.Open();
-
-                    cmd.Parameters.AddWithValue("@userID", userID);
-                    cmd.Parameters.AddWithValue("@username", username);
-                    cmd.Parameters.AddWithValue("@score", score);
-                    cmd.Parameters.AddWithValue("@time", timeSeconds);
-                    cmd.Parameters.AddWithValue("@date", DateTime.Now);
                     return cmd.ExecuteNonQuery() > 0; 
                 }
                 catch { return false; }
