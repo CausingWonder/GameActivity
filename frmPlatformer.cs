@@ -46,7 +46,7 @@ namespace GameActivity
             tmrGame = new System.Windows.Forms.Timer { Interval = GameTickSpeed };
             tmrGame.Tick += tmrGame_Tick;
 
-            //typeof(Panel).GetProperty("DoubleBuffered", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance) ?.SetValue(pnl_platformer, true);
+           typeof(Panel).GetProperty("DoubleBuffered", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance) ?.SetValue(pnl_platformer, true);
 
             createStaticControls();
             InitializeGame();
@@ -74,10 +74,13 @@ namespace GameActivity
             pnl_platformer.Controls.Add(lblMovPlat1);
             pnl_platformer.Controls.Add(lblMovPlat2);
 
+            string resPath = Path.Combine(Application.StartupPath, "Resources");
+
             var door = clsGameEngine.DoorBounds;
             pnl_platformer.Controls.Add(new PictureBox
             {
-                BackColor = Color.SaddleBrown,
+                Image = Image.FromFile(Path.Combine(resPath, "door.jpg")),
+                SizeMode = PictureBoxSizeMode.StretchImage,
                 Location = new Point(door.X, door.Y),
                 Size = new Size(door.Width, door.Height),
                 Margin = Padding.Empty,
@@ -86,7 +89,8 @@ namespace GameActivity
 
             picPlayer = new PictureBox
             {
-                BackColor = Color.Blue,
+                Image = Image.FromFile(Path.Combine(resPath, "player.png")),
+                SizeMode = PictureBoxSizeMode.StretchImage,
                 Size = new Size(clsPlayer.width, clsPlayer.hieght),
                 Margin = Padding.Empty,
                 Tag = "player"
@@ -94,8 +98,8 @@ namespace GameActivity
             pnl_platformer.Controls.Add(picPlayer);
             picPlayer.BringToFront();
 
-            picEnemy1 = new PictureBox { BackColor = Color.Red, Size = new Size(clsEnemies.width, clsEnemies.hieght), Margin = Padding.Empty, Tag = "enemy" };
-            picEnemy2 = new PictureBox { BackColor = Color.DarkRed, Size = new Size(clsEnemies.width, clsEnemies.hieght), Margin = Padding.Empty, Tag = "enemy" };
+            picEnemy1 = new PictureBox { Image = Image.FromFile(Path.Combine(resPath, "fireEnemy.png")), SizeMode = PictureBoxSizeMode.StretchImage, Size = new Size(clsEnemies.width, clsEnemies.hieght), Margin = Padding.Empty, Tag = "enemy" };
+            picEnemy2 = new PictureBox { Image = Image.FromFile(Path.Combine(resPath, "fireEnemy.png")), SizeMode = PictureBoxSizeMode.StretchImage, Size = new Size(clsEnemies.width, clsEnemies.hieght), Margin = Padding.Empty, Tag = "enemy" };
             pnl_platformer.Controls.Add(picEnemy1);
             pnl_platformer.Controls.Add(picEnemy2);
             picEnemy1.BringToFront();
@@ -104,7 +108,6 @@ namespace GameActivity
             pnl_platformer.ResumeLayout(false);
         }
 
-        // Rebuilds coin PictureBox controls to match engine.Coins after a reset.
         private void syncCoinControls()
         {
             foreach (var pic in coinControls)
@@ -131,7 +134,10 @@ namespace GameActivity
             engine.InitializeGame();
 
             lbl_score.Text = "Score: 0";
-            lbl_time.Text =  "Time: 0";
+            lbl_time.Text = "Time: 0";
+                    
+            lblMovPlat1.Size = new Size(engine.MovPlat1.width, engine.MovPlat1.height);
+            lblMovPlat2.Size = new Size(engine.MovPlat2.width, engine.MovPlat2.height);
 
             syncCoinControls();
             syncAll();
@@ -142,14 +148,14 @@ namespace GameActivity
 
         private void syncAll()
         {
+            // Batch all control moves into one layout pass to avoid per-move repaints
+            pnl_platformer.SuspendLayout();
             picPlayer.Location = new Point(engine.Player.x, engine.Player.y);
             picEnemy1.Location = new Point(engine.Enemy1.x, engine.Enemy1.y);
             picEnemy2.Location = new Point(engine.Enemy2.x, engine.Enemy2.y);
-
             lblMovPlat1.Location = new Point(engine.MovPlat1.x, engine.MovPlat1.y);
-            lblMovPlat1.Size = new Size(engine.MovPlat1.width, engine.MovPlat1.height);
             lblMovPlat2.Location = new Point(engine.MovPlat2.x, engine.MovPlat2.y);
-            lblMovPlat2.Size = new Size(engine.MovPlat2.width, engine.MovPlat2.height);
+            pnl_platformer.ResumeLayout(false);
         }
 
         public void gameKeyDown(Keys key)
@@ -166,9 +172,9 @@ namespace GameActivity
 
         private void tmrGame_Tick(object? sender, EventArgs e)
         {
-            GameEvent evt = engine.Update();
+            GameEvent gEvent = engine.Update();
 
-            lbl_time.Text  = "Time: " + engine.TimeSeconds;
+            lbl_time.Text = "Time: " + engine.TimeSeconds;
             lbl_score.Text = "Score: " + engine.Score;
 
             if (engine.Enemy1FlippedThisTick && picEnemy1.Image != null) 
@@ -182,9 +188,9 @@ namespace GameActivity
                 if (engine.Coins[i].Collected)
                 {   coinControls[i].Visible = false; }
 
-            if (evt == GameEvent.PlayerDied) 
+            if (gEvent == GameEvent.PlayerDied) 
             {   playerDeath(); return; }
-            if (evt == GameEvent.Victory) 
+            if (gEvent == GameEvent.Victory) 
             {   victory(); return; }
         }
 
@@ -218,14 +224,16 @@ namespace GameActivity
         private void showScoreboard(objUser user)
         {
             frmScore scoreForm = new frmScore(user);
-            scoreForm.TopLevel= false;
+            scoreForm.TopLevel = false;
             scoreForm.FormBorderStyle = FormBorderStyle.None;
             scoreForm.Location = new Point(
                 (pnl_platformer.Width  - scoreForm.Width)  / 2,
                 (pnl_platformer.Height - scoreForm.Height) / 2);
             scoreForm.Exit += (s, e) => btn_signOut_Click(s!, e);
+            scoreForm.PlayAgain += (s, e) => { scoreForm.Dispose(); InitializeGame(); };
             pnl_platformer.Controls.Add(scoreForm);
             scoreForm.Show();
+            scoreForm.BringToFront();
         }
 
         private void btn_scoreBoard_Click(object sender, EventArgs e)

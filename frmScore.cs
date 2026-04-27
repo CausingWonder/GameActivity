@@ -14,8 +14,8 @@ namespace GameActivity
 {
     public partial class frmScore : Form
     {
-
         public event EventHandler Exit;
+        public event EventHandler PlayAgain;
 
         public frmScore(objUser currentuser)
         {
@@ -24,7 +24,7 @@ namespace GameActivity
 
         private void btn_playAgain_Click(object sender, EventArgs e)
         {
-            this.Dispose();
+            PlayAgain?.Invoke(this, e);
         }
 
         private void btn_exit_Click(object sender, EventArgs e)

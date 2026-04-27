@@ -20,12 +20,12 @@ namespace GameActivity.clsLogic
 
         private static (int x, int y, int w)[] PlatformDefs = {
             (0, 383, 175),
-            (191, 342, 250),
-            (282, 265, 300),
+            (382, 342, 250),
+            (191, 265, 280),
             (582, 214, 219),
             (101, 153, 260),
             (591, 67, 150),
-            (10, 102, 175)
+            (10, 96, 175)
         };
         private const int PlatHeight = 15;
 
@@ -68,8 +68,8 @@ namespace GameActivity.clsLogic
             _coins = SpawnCoins(new Random());
 
             Player = new clsPlayer(_canvasWidth, _canvasHeight);
-            MovPlat1 = new clsPlatforms(60, 275, 88, 15, speed: 3, topLimit: 235, botLimit: 316);
-            MovPlat2 = new clsPlatforms(510, 148, 70, 15, speed: 7, topLimit: 108, botLimit: 188);
+            MovPlat1 = new clsPlatforms(60, 275, 88, 15, speed: 3, topLimit: 235, botLimit: 301);
+            MovPlat2 = new clsPlatforms(510, 148, 70, 15, speed: 6, topLimit: 108, botLimit: 188);
 
             var plat1 = _staticPlatformBounds[1];
             var plat2 = _staticPlatformBounds[3];
@@ -140,7 +140,7 @@ namespace GameActivity.clsLogic
             {   Player.bounceDown(plat.Bottom); }
         }
 
-        private List<objCoin> SpawnCoins(Random rng)
+        private List<objCoin> SpawnCoins(Random rand)
         {
             const int coinSize = 16;
             const int coinAbove = 30;
@@ -155,7 +155,7 @@ namespace GameActivity.clsLogic
                 if (usableWidth < coinSize)
                 {   continue; }
 
-                int count = rng.Next(2, 5);
+                int count = rand.Next(2, 5);
                 int coinY = plat.Top - coinAbove;
                 var placedX = new List<int>();
 
@@ -164,7 +164,7 @@ namespace GameActivity.clsLogic
                     int coinX = -1;
                     for (int attempt = 0; attempt < 20; attempt++)
                     {
-                        int candidate = rng.Next(plat.Left + edgeMargin, plat.Right - edgeMargin - coinSize);
+                        int candidate = rand.Next(plat.Left + edgeMargin, plat.Right - edgeMargin - coinSize);
                         if (placedX.TrueForAll(px => Math.Abs(px - candidate) >= minSpacing))
                         {
                             coinX = candidate;

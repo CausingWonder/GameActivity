@@ -59,9 +59,9 @@ namespace GameActivity.clsLogic
                 goLeft = true;
                 if (lastKeyRight)
                 {
-                    flipNeeded   = true;
+                    flipNeeded = true;
                     lastKeyRight = false;
-                    lastKeyLeft  = true;
+                    lastKeyLeft = true;
                 }
             }
 
@@ -70,14 +70,14 @@ namespace GameActivity.clsLogic
                 goRight = true;
                 if (lastKeyLeft)
                 {
-                    flipNeeded   = true;
-                    lastKeyLeft  = false;
+                    flipNeeded = true;
+                    lastKeyLeft = false;
                     lastKeyRight = true;
                 }
             }
 
             if ((key == Keys.Space || key == Keys.Up) && grounded)
-                jumping = true;
+            {   jumping = true; }
 
             return flipNeeded;
         }
@@ -95,24 +95,27 @@ namespace GameActivity.clsLogic
             if (goLeft)
             {
                 x -= playerSpeed;
-                if (x < 0) x = 0;
+                if (x < 0)
+                {   x = 0; }
             }
             if (goRight)
             {
                 x += playerSpeed;
-                if (x + width > canvasWidth) x = canvasWidth - width;
+                if (x + width > canvasWidth)
+                {   x = canvasWidth - width; }
             }
 
             if (jumping && grounded)
             {
                 jumpSpeed = jumpInitialSpeed;
-                grounded  = false;
+                grounded = false;
             }
 
             if (!grounded)     
             {
                 jumpSpeed += gravityValue;
-                if (jumpSpeed > maxFallSpeed) jumpSpeed = maxFallSpeed;
+                if (jumpSpeed > maxFallSpeed) 
+                {   jumpSpeed = maxFallSpeed; }
                 y += jumpSpeed;
             }
             else
@@ -120,7 +123,11 @@ namespace GameActivity.clsLogic
                 jumpSpeed = 0;
             }
 
-            if (y < 0) { y = 0; jumpSpeed = 0; }
+            if (y < 0)
+            {
+                y = 0;
+                jumpSpeed = 0;
+            }
 
             return y > canvasHeight;
         }
@@ -132,7 +139,7 @@ namespace GameActivity.clsLogic
             landedOnPlatform = true;
             grounded = true;
             jumpSpeed = 0;
-            y = platformTop - hieght + 1;
+            y = platformTop - hieght;
         }
 
         public void pushRight(int platformLeft)
