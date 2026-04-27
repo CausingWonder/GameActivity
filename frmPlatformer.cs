@@ -10,7 +10,6 @@ using System.Windows.Forms;
 // Custom Librays
 using GameActivity.clsData;
 using GameActivity.clsLogic;
-using GameActivity.DBManagers;
 
 namespace GameActivity
 {
@@ -148,7 +147,6 @@ namespace GameActivity
 
         private void syncAll()
         {
-            // Batch all control moves into one layout pass to avoid per-move repaints
             pnl_platformer.SuspendLayout();
             picPlayer.Location = new Point(engine.Player.x, engine.Player.y);
             picEnemy1.Location = new Point(engine.Enemy1.x, engine.Enemy1.y);
@@ -207,12 +205,12 @@ namespace GameActivity
         private void victory()
         {
             tmrGame.Stop();
-            dbmUser.dbInsertScore(currentUser.getUserID(), currentUser.getUsername(), engine.Score, engine.TimeSeconds);
+            bool savedCorrect = clsScore.saveScore(currentUser, engine.Score, engine.TimeSeconds);
             DialogResult result = MessageBox.Show($"You Won!\nScore: {engine.Score}   Time: {engine.TimeSeconds}s\n\nView Scoreboard?", "Victory!", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
             if (result == DialogResult.Yes)
-            {   showScoreboard(currentUser); }
+            { showScoreboard(currentUser); }
             else
-            {   SignOut?.Invoke(this, EventArgs.Empty); }
+            { SignOut?.Invoke(this, EventArgs.Empty); }
         }
 
         private void btn_signOut_Click(object sender, EventArgs e)

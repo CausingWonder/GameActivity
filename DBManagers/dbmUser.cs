@@ -46,27 +46,5 @@ namespace GameActivity.DBManagers
             return user;
         }
 
-        public static bool dbInsertScore(int userID, string username, int score, int timeSeconds)
-        {
-            using (SqlConnection connection = new SqlConnection(LOCAL_CONNECTION))
-            {
-                string query = "INSERT INTO Scores (UserID, Username, Score, Time, Date) VALUES (@userID, @username, @score, @time, @date)";
-                SqlCommand cmd = new SqlCommand(query, connection);
-
-                cmd.Parameters.AddWithValue("@userID", userID);
-                cmd.Parameters.AddWithValue("@username", username);
-                cmd.Parameters.AddWithValue("@score", score);
-                cmd.Parameters.AddWithValue("@time", timeSeconds);
-                cmd.Parameters.AddWithValue("@date", DateTime.Now);
-
-                try
-                {
-                    connection.Open();
-                    return cmd.ExecuteNonQuery() > 0; 
-                }
-                catch { return false; }
-                finally { connection.Close(); }
-            }
-        }
     }
 }
