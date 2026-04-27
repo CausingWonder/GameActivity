@@ -11,7 +11,7 @@ using GameActivity.clsData;
 
 namespace GameActivity.Classes
 {
-    internal class clsLogin
+    internal class clsAuthentication
     {
         public enum ValidationType { InvalidUsername = 0, InvalidPassword = 1, ValidUser = 2}
         public static ValidationType validateUser(string username, string password)

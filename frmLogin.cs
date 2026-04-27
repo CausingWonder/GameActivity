@@ -35,18 +35,18 @@ namespace GameActivity
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            clsLogin.ValidationType validation = clsLogin.validateUser(txtUsername.Text.Trim(), txtPassword.Text.Trim());
+            clsAuthentication.ValidationType validation = clsAuthentication.validateUser(txtUsername.Text.Trim(), txtPassword.Text.Trim());
 
             switch (validation)
             {
-                case clsLogin.ValidationType.InvalidPassword:
+                case clsAuthentication.ValidationType.InvalidPassword:
                     MessageBox.Show("Invalid Password");
                     break;
-                case clsLogin.ValidationType.InvalidUsername:
+                case clsAuthentication.ValidationType.InvalidUsername:
                     MessageBox.Show("Invalid User");
                     break;
-                case clsLogin.ValidationType.ValidUser:
-                    objUser user = clsLogin.loginUser(txtUsername.Text.Trim(), txtPassword.Text.Trim());
+                case clsAuthentication.ValidationType.ValidUser:
+                    objUser user = clsAuthentication.loginUser(txtUsername.Text.Trim(), txtPassword.Text.Trim());
                     LoginSuccessful?.Invoke(this, user);
                     break;
                 default:
